@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- impeccable-disable overused-font: Inter é a tipografia escolhida pelo cliente para todo o kit comercial (book, portfólio, rendimento); o site precisa casar com os PDFs -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300,0,0&icon_names=account_balance,architecture,beach_access,calendar_month,chat,check,chevron_left,chevron_right,close,construction,corporate_fare,description,directions_bike,engineering,expand_more,fitness_center,home_work,key,location_on,luggage,mark_email_read,north_east,payments,pool,restaurant,room_service,sauna,self_improvement,shield,sms_failed,spa,trending_up&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300,0,0&icon_names=account_balance,architecture,beach_access,calendar_month,chat,check,chevron_left,chevron_right,close,construction,corporate_fare,description,directions_bike,engineering,expand_more,fitness_center,home_work,key,location_on,luggage,mark_email_read,north_east,payments,pool,restaurant,room_service,sauna,search,self_improvement,shield,sms_failed,spa,trending_up&display=block" rel="stylesheet">
   <link rel="preload" as="image" href="assets/piscina-noite.webp">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
@@ -87,7 +87,6 @@
       <h1 class="h-anim">Lofts contemporâneos em <strong>Arraial d'Ajuda</strong>.</h1>
       <p class="sub h-anim">Um lugar para viver. Um patrimônio para valorizar. Lofts com piscina, jardins e circuito wellness, entre o centro histórico e as praias de Arraial d'Ajuda.</p>
       <div class="hero-acoes h-anim">
-        <a href="#form-card" class="btn btn-primario">Quero receber a apresentação</a>
         <a href="#aura" class="btn btn-contorno">Conhecer o projeto</a>
       </div>
       <div class="hero-local h-anim"><span class="ms" aria-hidden="true">location_on</span><span>Corais do Arraial · Arraial d'Ajuda – BA</span></div>
@@ -112,8 +111,12 @@
           <label for="f-tel">WhatsApp</label>
           <div class="tel">
             <div class="ddi">
-              <select id="f-ddi" name="pais" aria-label="Código do país"></select>
-              <span class="ddi-vitrine" aria-hidden="true"><span class="bandeira">&#127463;&#127479;</span><span class="cod">+55</span><span class="ms">expand_more</span></span>
+              <button type="button" class="ddi-botao" aria-haspopup="listbox" aria-expanded="false" aria-label="País do telefone"><span class="bandeira">&#127463;&#127479;</span><span class="cod">+55</span><span class="ms" aria-hidden="true">expand_more</span></button>
+              <div class="ddi-painel" hidden>
+                <label class="ddi-busca"><span class="ms" aria-hidden="true">search</span><input type="text" placeholder="Buscar país" aria-label="Buscar país" autocomplete="off"></label>
+                <ul class="ddi-opcoes" role="listbox" aria-label="Países"></ul>
+              </div>
+              <input type="hidden" name="pais" value="Brasil">
             </div>
             <input type="tel" id="f-tel" name="telefone" autocomplete="tel" inputmode="tel" placeholder="(DD) 99999-9999" required>
           </div>
@@ -160,20 +163,22 @@
       <p>Lofts pensados para hospedagem, organizados ao redor de piscina, jardins e áreas de convivência. São 30 lofts em dois pavimentos e duas tipologias: o térreo, com área externa privativa, e o superior, com varanda. Arquitetura e paisagismo integrados ao clima de Arraial d'Ajuda.</p>
       <p>Cinco razões para ter um loft no AURA Corais. Arraial d'Ajuda como destino, com turismo consolidado o ano inteiro. Localização estratégica, entre o centro e as praias. Produto pensado para hospedagem e operação. Potencial de renda em mercado ativo. Potencial de valorização em região em consolidação.</p>
       <p>Para quem compra para investir, duas teses caminham separadas: o <b>potencial de geração de receita</b> por locação por temporada e o <b>potencial de valorização</b> de um imóvel novo, em região em consolidação. Renda e valorização têm naturezas distintas e não se somam. Estimativas, não garantias.</p>
-      
-      <div class="numeros">
-        <div class="numero"><b>30</b><span>lofts em 2 pavimentos</span></div><div class="numero"><b>2</b><span>tipologias · térreo e superior</span></div><div class="numero"><b>32,42 m²</b><span>loft superior · área privativa</span></div><div class="numero"><b>40,58 m²</b><span>loft térreo · área privativa aproximada</span></div>
-      </div>
-      
     </div>
     <div><img class="sobre-img" src="assets/patio-piscina.webp" alt="AURA Corais: pátio, piscina e jardins (imagem ilustrativa)" loading="lazy" width="1280" height="960"></div>
   </div>
+  
+  <div class="container reveal">
+    <div class="numeros">
+      <div class="numero"><b>30</b><span>lofts em 2 pavimentos</span></div><div class="numero"><b>2</b><span>tipologias · térreo e superior</span></div><div class="numero"><b>32,42 m²</b><span>loft superior · área privativa</span></div><div class="numero"><b>40,58 m²</b><span>loft térreo · área privativa aproximada</span></div>
+    </div>
+  </div>
+  
 </section>
 
 <!-- ================= ARRAIAL D'AJUDA ================= -->
 <section id="arraial" class="secao bg-soft">
-  <div class="container grid grid-2 alinha-centro reveal">
-    <div><img class="destino-img" src="assets/bicicleta.webp" alt="AURA Corais em Arraial d'Ajuda (imagem ilustrativa)" loading="lazy" width="1024" height="1280"></div>
+  <div class="container grid grid-2 destino-grid reveal">
+    <div class="destino-foto"><img class="destino-img" src="assets/bicicleta.webp" alt="AURA Corais em Arraial d'Ajuda (imagem ilustrativa)" loading="lazy" width="1024" height="1280"></div>
     <div>
       <span class="tag">O destino</span>
       <h2 class="titulo">Arraial d'Ajuda. Um destino que recebe <strong>o ano inteiro</strong>.</h2>

@@ -228,22 +228,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const nome = form.querySelector('[name=nome]');
     const email = form.querySelector('[name=email]');
     const tel = form.querySelector('[name=telefone]');
-    const selPais = document.getElementById('f-ddi');
-    const vitrine = form.querySelector('.ddi-vitrine');
+    const ddi = form.querySelector('.ddi');
+    const ddiBotao = ddi.querySelector('.ddi-botao');
+    const ddiPainel = ddi.querySelector('.ddi-painel');
+    const ddiBusca = ddi.querySelector('.ddi-busca input');
+    const ddiLista = ddi.querySelector('.ddi-opcoes');
+    const campoPais = ddi.querySelector('input[type=hidden]');
     const consent = form.querySelector('[name=consent]');
     const sucesso = document.getElementById('form-sucesso');
     const cabecalho = document.getElementById('form-cabecalho');
     const botao = form.querySelector('button[type=submit]');
     const rotuloBotao = botao.textContent;
 
-    /* seletor de país (DDI): <select> nativo transparente sobre a vitrine bandeira + código */
-    PAISES.forEach(p => {
-      const o = document.createElement('option');
-      o.value = p.c;
-      o.textContent = `${p.f}  ${p.n}  +${p.c}`;
-      selPais.appendChild(o);
+    /* seletor de país (DDI): lista própria, com a paleta do site (o <select> nativo não é estilizável) */
+    let iPais = 0, foco = 0;
+    const semAcento = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    PAISES.forEach((p, i) => {
+      const li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', String(i === 0));
+      li.innerHTML = '<span class="bandeira"></span><span class="nome"></span><span class="cod"></span>';
+      li.querySelector('.bandeira').textContent = p.f;
+      li.querySelector('.nome').textContent = p.n;
+      li.querySelector('.cod').textContent = '+' + p.c;
+      li.addEventListener('click', () => { escolherPais(i); fecharDdi(); tel.focus(); });
+      ddiLista.appendChild(li);
     });
-    const pais = () => PAISES[selPais.selectedIndex] || PAISES[0];
+    const itensDdi = [...ddiLista.children];
+    const vazioDdi = document.createElement('li');
+    vazioDdi.className = 'vazio'; vazioDdi.hidden = true; vazioDdi.textContent = 'Nenhum país encontrado';
+    ddiLista.appendChild(vazioDdi);
+
+    const pais = () => PAISES[iPais];
     const ehBR = () => pais().c === '55';
     function formatarTel() {
       let v = tel.value.replace(/\D/g, '').slice(0, ehBR() ? 11 : 15);
@@ -254,16 +270,69 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       tel.value = v;
     }
-    function pintarPais() {
+    function escolherPais(i) {
+      iPais = i;
       const p = pais();
-      vitrine.querySelector('.bandeira').textContent = p.f;
-      vitrine.querySelector('.cod').textContent = '+' + p.c;
+      ddiBotao.querySelector('.bandeira').textContent = p.f;
+      ddiBotao.querySelector('.cod').textContent = '+' + p.c;
+      campoPais.value = p.n;
+      itensDdi.forEach((li, k) => li.setAttribute('aria-selected', String(k === i)));
       tel.placeholder = ehBR() ? '(DD) 99999-9999' : 'Número com DDD';
       formatarTel();
     }
-    selPais.addEventListener('change', pintarPais);
+    function marcarFoco(i) {
+      foco = i;
+      itensDdi.forEach((li, k) => li.classList.toggle('foco', k === i));
+      if (itensDdi[i]) itensDdi[i].scrollIntoView({ block: 'nearest' });
+    }
+    function filtrarDdi(t) {
+      const q = semAcento(t.trim()), dig = t.replace(/\D/g, '');
+      let visiveis = 0;
+      itensDdi.forEach((li, k) => {
+        const p = PAISES[k];
+        const ok = !q || semAcento(p.n).includes(q) || (dig && p.c.startsWith(dig));
+        li.hidden = !ok;
+        if (ok) visiveis++;
+      });
+      vazioDdi.hidden = visiveis > 0;
+      const primeiro = itensDdi.findIndex(li => !li.hidden);
+      marcarFoco(primeiro < 0 ? -1 : primeiro);
+    }
+    function abrirDdi() {
+      ddi.classList.add('aberto');
+      ddiPainel.hidden = false;
+      ddiBotao.setAttribute('aria-expanded', 'true');
+      ddiBusca.value = '';
+      filtrarDdi('');
+      marcarFoco(iPais);
+      if (itensDdi[iPais]) itensDdi[iPais].scrollIntoView({ block: 'center' });
+      setTimeout(() => ddiBusca.focus(), 40);
+    }
+    function fecharDdi() {
+      ddi.classList.remove('aberto');
+      ddiPainel.hidden = true;
+      ddiBotao.setAttribute('aria-expanded', 'false');
+    }
+    ddiBotao.addEventListener('click', () => (ddi.classList.contains('aberto') ? fecharDdi() : abrirDdi()));
+    ddiBusca.addEventListener('input', () => filtrarDdi(ddiBusca.value));
+    ddiPainel.addEventListener('keydown', e => {
+      const visiveis = itensDdi.filter(li => !li.hidden);
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!visiveis.length) return;
+        const atual = visiveis.indexOf(itensDdi[foco]);
+        const prox = visiveis[(atual + (e.key === 'ArrowDown' ? 1 : -1) + visiveis.length) % visiveis.length] || visiveis[0];
+        marcarFoco(itensDdi.indexOf(prox));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (foco >= 0 && !itensDdi[foco].hidden) { escolherPais(foco); fecharDdi(); tel.focus(); }
+      } else if (e.key === 'Escape') {
+        e.preventDefault(); fecharDdi(); ddiBotao.focus();
+      }
+    });
+    document.addEventListener('click', e => { if (!ddi.contains(e.target) && ddi.classList.contains('aberto')) fecharDdi(); });
     tel.addEventListener('input', formatarTel);
-    pintarPais();
+    escolherPais(0);
 
     const marca = (el, ok) => el.closest('.campo').classList.toggle('invalido', !ok);
 
@@ -330,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('form-reset').addEventListener('click', () => {
       form.reset();
       form.querySelectorAll('.campo').forEach(c => c.classList.remove('invalido'));
-      pintarPais();
+      escolherPais(0);
       sucesso.classList.add('oculto'); form.classList.remove('oculto'); cabecalho.classList.remove('oculto');
     });
   }
