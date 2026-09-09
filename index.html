@@ -38,8 +38,14 @@
 </head>
 <body>
 
+<!-- ================= ABERTURA (partículas formam a logo → "Mova para abrir") ================= -->
+<div id="intro" class="intro" aria-hidden="true">
+  <canvas id="intro-canvas"></canvas>
+  <div class="intro-dica"><span class="intro-dica-label">Mova para abrir</span><span class="intro-track"><span class="intro-dot"></span></span></div>
+</div>
+
 <!-- ================= HEADER ================= -->
-<header class="header">
+<header class="header h-anim">
   <div class="container header-inner">
     <a href="#hero" class="logo" aria-label="AURA Corais"><img src="assets/logo-creme.png" alt="AURA Corais" width="140" height="46"></a>
     <nav class="menu" aria-label="Seções">
@@ -77,16 +83,16 @@
   <div class="hero-bg"><img src="assets/piscina-noite.webp" alt="AURA Corais: piscina e lofts ao entardecer em Arraial d'Ajuda – BA (imagem ilustrativa)" fetchpriority="high"><div class="hero-overlay"></div></div>
   <div class="container hero-grid">
     <div>
-      <span class="badge">Breve lançamento · Arraial d'Ajuda – BA</span>
-      <h1>Lofts contemporâneos em <strong>Arraial d'Ajuda</strong>.</h1>
-      <p class="sub">Um lugar para viver. Um patrimônio para valorizar. Lofts com piscina, jardins e circuito wellness, entre o centro histórico e as praias de Arraial d'Ajuda.</p>
-      <div class="hero-acoes">
+      <span class="badge h-anim">Breve lançamento · Arraial d'Ajuda – BA</span>
+      <h1 class="h-anim">Lofts contemporâneos em <strong>Arraial d'Ajuda</strong>.</h1>
+      <p class="sub h-anim">Um lugar para viver. Um patrimônio para valorizar. Lofts com piscina, jardins e circuito wellness, entre o centro histórico e as praias de Arraial d'Ajuda.</p>
+      <div class="hero-acoes h-anim">
         <a href="#form-card" class="btn btn-primario">Quero receber a apresentação</a>
         <a href="#aura" class="btn btn-contorno">Conhecer o projeto</a>
       </div>
-      <div class="hero-local"><span class="ms" aria-hidden="true">location_on</span><span>Corais do Arraial · Arraial d'Ajuda – BA</span></div>
+      <div class="hero-local h-anim"><span class="ms" aria-hidden="true">location_on</span><span>Corais do Arraial · Arraial d'Ajuda – BA</span></div>
     </div>
-    <div class="form-card" id="form-card">
+    <div class="form-card h-anim" id="form-card">
       <div id="form-cabecalho">
         <h3>Receba a apresentação em primeira mão</h3>
         <p class="ajuda">Cadastre-se e receba o book do AURA Corais e as próximas novidades do lançamento.</p>

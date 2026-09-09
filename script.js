@@ -10,7 +10,105 @@ const CONFIG = {
   autoplayMs: 6000
 };
 
+/* ---------- abertura: partículas se juntam e formam a logo; "Mova para abrir" libera o hero em cascata ---------- */
+function iniciarAbertura() {
+  const el = document.getElementById('intro');
+  if (!el) return;
+  const body = document.body;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { el.remove(); body.classList.add('aberto'); return; }
+  body.classList.add('intro-ativa');
+
+  const cv = document.getElementById('intro-canvas');
+  const ctx = cv.getContext('2d');
+  const DUR = 2600;                       // tempo para as partículas formarem a logo
+  const CREME = '#F2ECDF', MEL = '#C99865';
+  let W, H, pts = [], formado = false, entrou = false, inicio = 0, saida = 0;
+
+  function medir() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  medir();
+
+  function entrar(forcado) {
+    if (entrou || (!formado && !forcado)) return;
+    entrou = true; saida = performance.now();
+    el.classList.add('saindo');
+    body.classList.remove('intro-ativa');
+    body.classList.add('aberto');
+    if (forcado) el.remove();
+  }
+
+  // pontos-alvo: pixels opacos da logo (creme), amostrados numa grade
+  const img = new Image();
+  img.onload = () => {
+    const lw = Math.min(W * (W < 768 ? 0.8 : 0.58), 560);
+    const lh = lw * img.height / img.width;
+    const off = document.createElement('canvas');
+    off.width = Math.round(lw); off.height = Math.round(lh);
+    const oc = off.getContext('2d');
+    oc.drawImage(img, 0, 0, off.width, off.height);
+    let dados;
+    try { dados = oc.getImageData(0, 0, off.width, off.height).data; } catch (_) { entrar(true); return; }
+    const passo = Math.max(2, Math.round(lw / 175));
+    const ox = (W - lw) / 2, oy = (H - lh) / 2 - 24;
+    let alvos = [];
+    for (let y = 0; y < off.height; y += passo) {
+      for (let x = 0; x < off.width; x += passo) {
+        if (dados[(y * off.width + x) * 4 + 3] > 120) alvos.push([ox + x, oy + y]);
+      }
+    }
+    for (let i = alvos.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [alvos[i], alvos[j]] = [alvos[j], alvos[i]]; }
+    alvos = alvos.slice(0, 2600);
+    const raio = Math.max(W, H);
+    pts = alvos.map(a => {
+      const ang = Math.random() * Math.PI * 2, r = raio * (0.35 + Math.random() * 0.55);
+      return { tx: a[0], ty: a[1], sx: W / 2 + Math.cos(ang) * r, sy: H / 2 + Math.sin(ang) * r,
+               atraso: Math.random() * 0.45, tam: 1.2 + Math.random() * 1.2, mel: Math.random() < 0.16, fase: Math.random() * 6.283 };
+    });
+    inicio = performance.now();
+    requestAnimationFrame(quadro);
+  };
+  img.onerror = () => entrar(true);
+  img.src = 'assets/logo-creme.png';
+
+  const suave = t => 1 - Math.pow(1 - t, 3);
+  function quadro(agora) {
+    const t = Math.min(1, (agora - inicio) / DUR);
+    const seg = (agora - inicio) / 1000;
+    const fim = saida ? Math.min(1, (agora - saida) / 1100) : 0;
+    ctx.clearRect(0, 0, W, H);
+    for (const p of pts) {
+      const k = suave(Math.max(0, Math.min(1, (t - p.atraso) / (1 - p.atraso))));
+      let x = p.sx + (p.tx - p.sx) * k, y = p.sy + (p.ty - p.sy) * k;
+      if (k >= 1) { x += Math.sin(seg * 1.3 + p.fase) * 0.7; y += Math.cos(seg * 1.1 + p.fase) * 0.7; }   // respiração
+      if (fim) { const a = Math.atan2(y - H / 2, x - W / 2); x += Math.cos(a) * fim * fim * W * 0.7; y += Math.sin(a) * fim * fim * H * 0.7; }
+      ctx.globalAlpha = Math.min(1, 0.12 + k) * (1 - fim);
+      ctx.fillStyle = p.mel ? MEL : CREME;
+      ctx.beginPath(); ctx.arc(x, y, p.tam, 0, 6.283); ctx.fill();
+    }
+    if (t >= 1 && !formado) {
+      formado = true; el.classList.add('pronto');
+      setTimeout(() => entrar(), 12000);   // rede de segurança: abre sozinho se ninguém interagir
+    }
+    if (saida && agora - saida > 1400) { el.remove(); return; }
+    requestAnimationFrame(quadro);
+  }
+
+  window.addEventListener('wheel', e => { if (e.deltaY > 0) entrar(); }, { passive: true });
+  window.addEventListener('touchmove', () => entrar(), { passive: true });
+  window.addEventListener('keydown', e => { if (['ArrowDown', 'PageDown', 'Enter', ' '].includes(e.key)) entrar(); });
+  el.addEventListener('click', () => entrar());
+  window.addEventListener('resize', medir);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  iniciarAbertura();
+
   /* ---------- header ---------- */
   const header = document.querySelector('.header');
   const onScroll = () => header.classList.toggle('rolado', window.scrollY > 40);

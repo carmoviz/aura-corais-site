@@ -56,7 +56,7 @@ img { max-width: 100%; height: auto; display: block; }
 .label { font-size: 11px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
 
 /* ---------- botões ---------- */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 30px; border-radius: 3px; font-family: var(--fonte); font-weight: 500; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; border: 1px solid transparent; cursor: pointer; transition: var(--t); white-space: nowrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 30px; border-radius: 14px; font-family: var(--fonte); font-weight: 500; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; border: 1px solid transparent; cursor: pointer; transition: var(--t); white-space: nowrap; }
 .btn .ms { font-size: 18px; }
 .btn-primario { background: var(--mel); color: var(--deep); }
 .btn-primario:hover { background: var(--mel-escuro); color: var(--white); transform: translateY(-2px); }
@@ -370,3 +370,28 @@ table.t tr.hl td { background: var(--soft); font-weight: 500; }
   .rodape-site .aviso { text-align: left; }
   .real-marca svg { height: 56px; }
 }
+
+/* ---------- abertura: partículas formam a logo → "Mova para abrir" ---------- */
+.intro { position: fixed; inset: 0; z-index: 300; background: radial-gradient(ellipse at 50% 45%, #3B2917 0%, var(--deep) 55%, #1C130A 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; transition: opacity .8s ease; }
+.intro.saindo { opacity: 0; pointer-events: none; }
+.intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.intro-dica { position: absolute; left: 0; right: 0; bottom: 52px; display: flex; flex-direction: column; align-items: center; gap: 14px; opacity: 0; transform: translateY(12px); transition: opacity .9s ease, transform .9s ease; }
+.intro.pronto .intro-dica { opacity: 1; transform: none; }
+.intro-dica-label { font-size: 10.5px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: var(--dark-muted); }
+.intro-track { position: relative; width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(201, 152, 101, .6), transparent); overflow: hidden; }
+.intro-dot { position: absolute; top: 0; left: 50%; width: 3px; height: 8px; margin-left: -1.5px; border-radius: 2px; background: var(--mel); animation: introDot 1.6s ease-in-out infinite; }
+@keyframes introDot { 0% { transform: translateY(-8px); opacity: 0; } 40% { opacity: 1; } 100% { transform: translateY(44px); opacity: 0; } }
+body.intro-ativa { overflow: hidden; }
+
+/* hero em cascata depois da abertura: título → subtítulo → botões → local → formulário (por último) */
+.h-anim { transition: opacity .9s cubic-bezier(.22, .61, .36, 1), transform .9s cubic-bezier(.22, .61, .36, 1); }
+body.intro-ativa .h-anim { opacity: 0; transform: translateY(28px); transition: none; }
+body.intro-ativa .header.h-anim { transform: translateY(-16px); }
+body.aberto .header.h-anim { transition-delay: .45s; }
+body.aberto .badge.h-anim { transition-delay: .5s; }
+body.aberto h1.h-anim { transition-delay: .7s; }
+body.aberto .sub.h-anim { transition-delay: 1.0s; }
+body.aberto .hero-acoes.h-anim { transition-delay: 1.25s; }
+body.aberto .hero-local.h-anim { transition-delay: 1.4s; }
+body.aberto .form-card.h-anim { transition-delay: 1.85s; transition-duration: 1.1s; }
+@media (prefers-reduced-motion: reduce) { .intro { display: none; } .h-anim { transition: none; } }
