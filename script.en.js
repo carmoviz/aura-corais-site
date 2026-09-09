@@ -5,19 +5,19 @@
 const CONFIG = {
   whatsapp: '5573999999999',            // só dígitos, com DDI (placeholder até a confirmação do número comercial)
   nome: 'AURA Corais',
-  msgWhats: 'Olá! Vi o site do AURA Corais e quero receber a apresentação.',
+  msgWhats: 'Hello! I saw the AURA Corais website and I would like to receive the presentation.',
   formEndpoint: 'https://formsubmit.co/ajax/contato@auracorais.com',   // URL que recebe o POST JSON do formulário (FormSubmit/Formspree). Vazio = só WhatsApp
   autoplayMs: 6000,
-  lang: 'pt',                    // 'pt' ou 'en' — define os textos abaixo e o nome dos países
+  lang: 'en',                    // 'pt' ou 'en' — define os textos abaixo e o nome dos países
   txt: {
-    enviando: 'Enviando…',
-    sucTitulo: 'Cadastro enviado!',
-    sucTexto: 'Seus dados foram enviados por e-mail para a equipe do AURA Corais. Em breve você recebe a apresentação completa e as novidades do lançamento.',
-    erroTitulo: 'Não conseguimos enviar agora',
-    erroTexto: 'O envio automático falhou. Fale com a equipe do AURA Corais pelo WhatsApp — respondemos em instantes.',
+    enviando: 'Sending…',
+    sucTitulo: 'Your details are on the way!',
+    sucTexto: 'Your details were e-mailed to the AURA Corais team. You will soon receive the full presentation and the latest news about the launch.',
+    erroTitulo: 'We could not send it right now',
+    erroTexto: 'The automatic submission failed. Talk to the AURA Corais team on WhatsApp — we answer in minutes.',
     telBR: '(DD) 99999-9999',
-    telIntl: 'Número com DDD',
-    semPais: 'Nenhum país encontrado'
+    telIntl: 'Number with area code',
+    semPais: 'No country found'
   }
 };
 
