@@ -17,7 +17,10 @@ const CONFIG = {
     erroTexto: 'The automatic submission failed. Talk to the AURA Corais team on WhatsApp — we answer in minutes.',
     telBR: '(DD) 99999-9999',
     telIntl: 'Number with area code',
-    semPais: 'No country found'
+    semPais: 'No country found',
+    newsInvalido: 'Please enter a valid e-mail.',
+    newsOk: 'Done! You are on the updates list.',
+    newsErro: 'We could not sign you up right now. Please try again in a moment.'
   }
 };
 
@@ -412,6 +415,48 @@ document.addEventListener('DOMContentLoaded', () => {
       form.querySelectorAll('.campo').forEach(c => c.classList.remove('invalido'));
       escolherPais(0);
       sucesso.classList.add('oculto'); form.classList.remove('oculto'); cabecalho.classList.remove('oculto');
+    });
+  }
+
+  /* ---------- novidades por e-mail (rodapé) ---------- */
+  const formNews = document.getElementById('form-news');
+  if (formNews) {
+    const campoNews = formNews.querySelector('input[type=email]');
+    const msgNews = formNews.querySelector('.news-msg');
+    const btNews = formNews.querySelector('button');
+    const rotuloNews = btNews.textContent;
+    formNews.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = campoNews.value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      formNews.classList.toggle('invalido', !ok);
+      if (!ok) { msgNews.classList.add('falhou'); msgNews.textContent = CONFIG.txt.newsInvalido; return; }
+      msgNews.textContent = ''; btNews.disabled = true; btNews.textContent = CONFIG.txt.enviando;
+      let enviado = false;
+      if (CONFIG.formEndpoint) {
+        try {
+          const r = await fetch(CONFIG.formEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              'E-mail': email,
+              Origem: location.href,
+              Idioma: CONFIG.lang === 'en' ? 'Inglês (EN)' : 'Português (PT)',
+              Enviado: new Date().toLocaleString('pt-BR'),
+              _subject: `Novidades — ${CONFIG.nome} (cadastro no rodapé)`,
+              _template: 'table',
+              _captcha: 'false'
+            })
+          });
+          let js = null;
+          try { js = await r.clone().json(); } catch (_) { /* resposta sem JSON */ }
+          enviado = r.ok && !(js && String(js.success) === 'false');
+        } catch (_) { enviado = false; }
+      }
+      btNews.disabled = false; btNews.textContent = rotuloNews;
+      msgNews.classList.toggle('falhou', !enviado);
+      msgNews.textContent = enviado ? CONFIG.txt.newsOk : CONFIG.txt.newsErro;
+      if (enviado) formNews.reset();
     });
   }
 

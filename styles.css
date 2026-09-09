@@ -367,9 +367,9 @@ table.t tr.hl td { background: var(--soft); font-weight: 500; }
 .rodape-site .copy { margin-top: 22px; text-align: center; font-size: 11.5px; letter-spacing: .06em; }
 
 /* ---------- WhatsApp flutuante ---------- */
-.whats { position: fixed; right: 20px; bottom: 20px; width: 58px; height: 58px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 26px -8px rgba(0, 0, 0, .45); z-index: 90; transition: var(--t); }
-.whats:hover { transform: scale(1.06); }
-.whats svg { width: 30px; height: 30px; fill: #fff; }
+.whats { position: fixed; right: 20px; bottom: 20px; width: 58px; height: 58px; border-radius: 50%; background: var(--mel); color: var(--deep); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 26px -8px rgba(0, 0, 0, .45); z-index: 90; transition: var(--t); }
+.whats:hover { transform: scale(1.06); background: var(--mel-escuro); }
+.whats svg { width: 30px; height: 30px; fill: currentColor; }
 
 /* ---------- animação de entrada ---------- */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
@@ -497,4 +497,72 @@ body.zoom-aberto { overflow: hidden; }
   .destino-grid .destino-img { aspect-ratio: 4/3; height: auto; min-height: 0; }
   .ddi-painel { width: 280px; max-width: calc(100vw - 72px); }
   .ddi-opcoes { max-height: 210px; }
+}
+
+/* ---------- crédito do projeto (CarmoViz Studio) ao lado da realização ---------- */
+.real-marcas { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 44px; }
+.real-marca.projeto svg { height: 46px; }
+.real-marca.projeto { transition: var(--t); }
+.real-marca.projeto:hover { color: var(--mel); }
+.real-marca.projeto:hover .nome { color: var(--mel); }
+.rodape-marcas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 30px; }
+.rodape-real.projeto svg { height: 26px; }
+.rodape-real.projeto { transition: var(--t); }
+.rodape-real.projeto:hover .nome { color: var(--mel); }
+
+/* ---------- novidades por e-mail (rodapé) ---------- */
+.rodape-news { display: grid; grid-template-columns: 1fr auto; gap: 20px 44px; align-items: center; padding: 4px 0 28px; border-bottom: 1px solid rgba(242, 236, 223, .1); margin-bottom: 26px; }
+.rodape-news .label { color: var(--mel); }
+.news-texto p { color: var(--dark-muted); margin-top: 7px; max-width: 480px; }
+.news-form { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.news-form input[type=email] { width: 290px; max-width: 100%; height: 46px; background: transparent; border: 0; border-bottom: 1px solid rgba(242, 236, 223, .32); border-radius: 0; color: var(--creme); font: inherit; font-size: 15px; padding: 0 4px; transition: var(--t); }
+.news-form input[type=email]::placeholder { color: rgba(242, 236, 223, .45); }
+.news-form input[type=email]:focus { outline: none; border-bottom-color: var(--mel); }
+.news-form.invalido input[type=email] { border-bottom-color: #E39C8B; }
+.news-msg { flex-basis: 100%; font-size: 12.5px; color: var(--mel); margin: 0; min-height: 0; }
+.news-msg.falhou { color: #E39C8B; }
+
+/* ---------- links jurídicos do rodapé ---------- */
+.rodape-juridico { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-bottom: 26px; }
+.rodape-juridico a { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--dark-muted); }
+.rodape-juridico a:hover { color: var(--mel); }
+
+/* ---------- páginas jurídicas ---------- */
+.voltar { display: inline-flex; align-items: center; gap: 4px; color: rgba(242, 236, 223, .8); font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.voltar:hover { color: var(--mel); }
+.voltar .ms { font-size: 18px; }
+.jur-topo { background: var(--deep); color: var(--creme); padding: calc(var(--header) + 66px) 0 66px; position: relative; }
+.jur-topo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: rgba(242, 236, 223, .12); }
+.jur-topo h1 { font-size: clamp(30px, 4vw, 50px); font-weight: 800; letter-spacing: -.035em; color: #F7F1EA; max-width: 22ch; line-height: 1.06; }
+.jur-topo .sub { color: var(--dark-texto); font-size: 17px; line-height: 1.65; max-width: 660px; margin-top: 18px; }
+.jur-data { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--dark-muted); }
+.jur-data .ms { font-size: 16px; color: var(--mel); }
+.jur-corpo { padding: 76px 0 96px; }
+.jur-texto { max-width: 800px; }
+.jur-bloco { margin-bottom: 42px; }
+.jur-bloco h2 { font-size: 20px; font-weight: 700; letter-spacing: -.022em; margin-bottom: 12px; }
+.jur-bloco p { color: var(--muted); font-size: 15.5px; line-height: 1.75; margin-bottom: 12px; }
+.jur-bloco p b, .jur-bloco p strong { color: var(--ink); font-weight: 600; }
+.jur-bloco a, .jur-contato a { color: var(--mel-texto); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.jur-bloco a:hover, .jur-contato a:hover { color: var(--cacau); }
+.jur-contato { display: flex; gap: 20px; align-items: center; background: var(--soft); border: 1px solid var(--line); border-radius: var(--r); padding: 24px 26px; margin-top: 52px; }
+.jur-contato h3 { font-size: 16.5px; margin-bottom: 4px; }
+.jur-contato p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+.jur-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 60px; }
+.jur-card { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: var(--r); padding: 26px 54px 26px 26px; transition: var(--t); }
+.jur-card:hover { transform: translateY(-3px); border-color: var(--areia); }
+.jur-card h3 { font-size: 17px; margin: 18px 0 6px; }
+.jur-card p { font-size: 14.5px; color: var(--muted); line-height: 1.55; }
+.jur-card-seta { position: absolute; top: 26px; right: 22px; color: var(--mel); }
+.pagina-juridica .rodape-site { padding-top: 44px; }
+
+@media (max-width: 768px) {
+  .rodape-news { grid-template-columns: 1fr; gap: 16px; }
+  .news-form { gap: 12px; }
+  .news-form input[type=email] { width: 100%; }
+  .jur-cards { grid-template-columns: 1fr; }
+  .jur-contato { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .jur-corpo { padding: 56px 0 72px; }
+  .jur-topo { padding: calc(var(--header) + 44px) 0 48px; }
+  .real-marcas, .rodape-marcas { gap: 16px 24px; }
 }
