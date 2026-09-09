@@ -6,9 +6,58 @@ const CONFIG = {
   whatsapp: '5573999999999',            // só dígitos, com DDI (placeholder até a confirmação do número comercial)
   nome: 'AURA Corais',
   msgWhats: 'Olá! Vi o site do AURA Corais e quero receber a apresentação.',
-  formEndpoint: '',   // opcional: URL que recebe POST JSON (Formspree, Make, Apps Script). Vazio = só WhatsApp
+  formEndpoint: 'https://formsubmit.co/ajax/contato@auracorais.com',   // URL que recebe o POST JSON do formulário (FormSubmit/Formspree). Vazio = só WhatsApp
   autoplayMs: 6000
 };
+
+/* Países do seletor de DDI do formulário (o primeiro é o padrão).
+   icone-js:sms_failed — ícone usado só pelo JS; precisa entrar no subconjunto do Material Symbols. */
+const PAISES = [
+  { n: 'Brasil', c: '55', f: '\u{1F1E7}\u{1F1F7}' },
+  { n: 'Portugal', c: '351', f: '\u{1F1F5}\u{1F1F9}' },
+  { n: 'Estados Unidos / Canadá', c: '1', f: '\u{1F1FA}\u{1F1F8}' },
+  { n: 'Argentina', c: '54', f: '\u{1F1E6}\u{1F1F7}' },
+  { n: 'Chile', c: '56', f: '\u{1F1E8}\u{1F1F1}' },
+  { n: 'Uruguai', c: '598', f: '\u{1F1FA}\u{1F1FE}' },
+  { n: 'Paraguai', c: '595', f: '\u{1F1F5}\u{1F1FE}' },
+  { n: 'Bolívia', c: '591', f: '\u{1F1E7}\u{1F1F4}' },
+  { n: 'Peru', c: '51', f: '\u{1F1F5}\u{1F1EA}' },
+  { n: 'Colômbia', c: '57', f: '\u{1F1E8}\u{1F1F4}' },
+  { n: 'Equador', c: '593', f: '\u{1F1EA}\u{1F1E8}' },
+  { n: 'Venezuela', c: '58', f: '\u{1F1FB}\u{1F1EA}' },
+  { n: 'México', c: '52', f: '\u{1F1F2}\u{1F1FD}' },
+  { n: 'Costa Rica', c: '506', f: '\u{1F1E8}\u{1F1F7}' },
+  { n: 'Panamá', c: '507', f: '\u{1F1F5}\u{1F1E6}' },
+  { n: 'Espanha', c: '34', f: '\u{1F1EA}\u{1F1F8}' },
+  { n: 'França', c: '33', f: '\u{1F1EB}\u{1F1F7}' },
+  { n: 'Itália', c: '39', f: '\u{1F1EE}\u{1F1F9}' },
+  { n: 'Alemanha', c: '49', f: '\u{1F1E9}\u{1F1EA}' },
+  { n: 'Reino Unido', c: '44', f: '\u{1F1EC}\u{1F1E7}' },
+  { n: 'Irlanda', c: '353', f: '\u{1F1EE}\u{1F1EA}' },
+  { n: 'Países Baixos', c: '31', f: '\u{1F1F3}\u{1F1F1}' },
+  { n: 'Bélgica', c: '32', f: '\u{1F1E7}\u{1F1EA}' },
+  { n: 'Suíça', c: '41', f: '\u{1F1E8}\u{1F1ED}' },
+  { n: 'Áustria', c: '43', f: '\u{1F1E6}\u{1F1F9}' },
+  { n: 'Luxemburgo', c: '352', f: '\u{1F1F1}\u{1F1FA}' },
+  { n: 'Suécia', c: '46', f: '\u{1F1F8}\u{1F1EA}' },
+  { n: 'Noruega', c: '47', f: '\u{1F1F3}\u{1F1F4}' },
+  { n: 'Dinamarca', c: '45', f: '\u{1F1E9}\u{1F1F0}' },
+  { n: 'Finlândia', c: '358', f: '\u{1F1EB}\u{1F1EE}' },
+  { n: 'Polônia', c: '48', f: '\u{1F1F5}\u{1F1F1}' },
+  { n: 'Grécia', c: '30', f: '\u{1F1EC}\u{1F1F7}' },
+  { n: 'Turquia', c: '90', f: '\u{1F1F9}\u{1F1F7}' },
+  { n: 'Israel', c: '972', f: '\u{1F1EE}\u{1F1F1}' },
+  { n: 'Emirados Árabes Unidos', c: '971', f: '\u{1F1E6}\u{1F1EA}' },
+  { n: 'África do Sul', c: '27', f: '\u{1F1FF}\u{1F1E6}' },
+  { n: 'Angola', c: '244', f: '\u{1F1E6}\u{1F1F4}' },
+  { n: 'Moçambique', c: '258', f: '\u{1F1F2}\u{1F1FF}' },
+  { n: 'Cabo Verde', c: '238', f: '\u{1F1E8}\u{1F1FB}' },
+  { n: 'Austrália', c: '61', f: '\u{1F1E6}\u{1F1FA}' },
+  { n: 'Nova Zelândia', c: '64', f: '\u{1F1F3}\u{1F1FF}' },
+  { n: 'Japão', c: '81', f: '\u{1F1EF}\u{1F1F5}' },
+  { n: 'China', c: '86', f: '\u{1F1E8}\u{1F1F3}' },
+  { n: 'Índia', c: '91', f: '\u{1F1EE}\u{1F1F3}' }
+];
 
 /* ---------- abertura: partículas se juntam e formam a logo; "Mova para abrir" libera o hero em cascata ---------- */
 function iniciarAbertura() {
@@ -173,32 +222,71 @@ document.addEventListener('DOMContentLoaded', () => {
     mostrar(0); reiniciar();
   }
 
-  /* ---------- formulário → WhatsApp ---------- */
+  /* ---------- formulário: seletor de país, envio por e-mail e confirmação ---------- */
   const form = document.getElementById('form-lead');
   if (form) {
     const nome = form.querySelector('[name=nome]');
     const email = form.querySelector('[name=email]');
     const tel = form.querySelector('[name=telefone]');
+    const selPais = document.getElementById('f-ddi');
+    const vitrine = form.querySelector('.ddi-vitrine');
     const consent = form.querySelector('[name=consent]');
     const sucesso = document.getElementById('form-sucesso');
     const cabecalho = document.getElementById('form-cabecalho');
+    const botao = form.querySelector('button[type=submit]');
+    const rotuloBotao = botao.textContent;
 
-    tel.addEventListener('input', e => {
-      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-      if (v.length > 6) v = `(${v.slice(0, 2)}) ${v.slice(2, v.length > 10 ? 7 : 6)}-${v.slice(v.length > 10 ? 7 : 6)}`;
-      else if (v.length > 2) v = `(${v.slice(0, 2)}) ${v.slice(2)}`;
-      else if (v.length > 0) v = `(${v}`;
-      e.target.value = v;
+    /* seletor de país (DDI): <select> nativo transparente sobre a vitrine bandeira + código */
+    PAISES.forEach(p => {
+      const o = document.createElement('option');
+      o.value = p.c;
+      o.textContent = `${p.f}  ${p.n}  +${p.c}`;
+      selPais.appendChild(o);
     });
+    const pais = () => PAISES[selPais.selectedIndex] || PAISES[0];
+    const ehBR = () => pais().c === '55';
+    function formatarTel() {
+      let v = tel.value.replace(/\D/g, '').slice(0, ehBR() ? 11 : 15);
+      if (ehBR()) {
+        if (v.length > 6) v = `(${v.slice(0, 2)}) ${v.slice(2, v.length > 10 ? 7 : 6)}-${v.slice(v.length > 10 ? 7 : 6)}`;
+        else if (v.length > 2) v = `(${v.slice(0, 2)}) ${v.slice(2)}`;
+        else if (v.length > 0) v = `(${v}`;
+      }
+      tel.value = v;
+    }
+    function pintarPais() {
+      const p = pais();
+      vitrine.querySelector('.bandeira').textContent = p.f;
+      vitrine.querySelector('.cod').textContent = '+' + p.c;
+      tel.placeholder = ehBR() ? '(DD) 99999-9999' : 'Número com DDD';
+      formatarTel();
+    }
+    selPais.addEventListener('change', pintarPais);
+    tel.addEventListener('input', formatarTel);
+    pintarPais();
 
     const marca = (el, ok) => el.closest('.campo').classList.toggle('invalido', !ok);
 
+    function mostrarResultado(ok, mail) {
+      sucesso.classList.toggle('falhou', !ok);
+      sucesso.querySelector('.icone .ms').textContent = ok ? 'mark_email_read' : 'sms_failed';
+      sucesso.querySelector('.suc-titulo').textContent = ok ? 'Cadastro enviado!' : 'Não conseguimos enviar agora';
+      sucesso.querySelector('.suc-texto').textContent = ok
+        ? `Seus dados foram enviados por e-mail para a equipe do ${CONFIG.nome}. Em breve você recebe a apresentação completa e as novidades do lançamento.`
+        : `O envio automático falhou. Fale com a equipe do ${CONFIG.nome} pelo WhatsApp — respondemos em instantes.`;
+      const eco = sucesso.querySelector('.suc-eco');
+      eco.classList.toggle('oculto', !ok);
+      sucesso.querySelector('.suc-email').textContent = mail;
+      form.classList.add('oculto'); cabecalho.classList.add('oculto'); sucesso.classList.remove('oculto');
+      sucesso.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
     form.addEventListener('submit', async e => {
       e.preventDefault();
+      const dig = tel.value.replace(/\D/g, '');
       const okNome = nome.value.trim().length >= 3;
       const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
-      const dig = tel.value.replace(/\D/g, '');
-      const okTel = dig.length >= 10 && dig.length <= 11;
+      const okTel = ehBR() ? (dig.length >= 10 && dig.length <= 11) : (dig.length >= 6 && dig.length <= 15);
       const corretor = form.querySelector('[name=corretor]:checked');
       const okCorretor = !!corretor;
       const okConsent = !consent || consent.checked;
@@ -207,19 +295,42 @@ document.addEventListener('DOMContentLoaded', () => {
       if (consent) consent.closest('.campo').classList.toggle('invalido', !okConsent);
       if (!(okNome && okEmail && okTel && okCorretor && okConsent)) return;
 
-      const dados = { nome: nome.value.trim(), email: email.value.trim(), telefone: tel.value.trim(), corretor: corretor.value, origem: location.href, quando: new Date().toISOString() };
+      const p = pais();
+      const dados = {
+        Nome: nome.value.trim(),
+        'E-mail': email.value.trim(),
+        WhatsApp: `+${p.c} ${tel.value.trim()}`,
+        'País': p.n,
+        'Corretor de imóveis': corretor.value,
+        Origem: location.href,
+        Enviado: new Date().toLocaleString('pt-BR'),
+        _subject: `Novo cadastro no site — ${CONFIG.nome}`,
+        _template: 'table',
+        _captcha: 'false'
+      };
 
+      botao.disabled = true; botao.textContent = 'Enviando…';
+      let ok = false;
       if (CONFIG.formEndpoint) {
-        try { await fetch(CONFIG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dados) }); } catch (_) { /* segue para o WhatsApp mesmo assim */ }
+        try {
+          const r = await fetch(CONFIG.formEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(dados)
+          });
+          let js = null;
+          try { js = await r.clone().json(); } catch (_) { /* resposta sem JSON */ }
+          ok = r.ok && !(js && String(js.success) === 'false');
+        } catch (_) { ok = false; }
       }
-      const msg = `${CONFIG.msgWhats}\nNome: ${dados.nome}\nE-mail: ${dados.email}\nWhatsApp: ${dados.telefone}\nCorretor: ${dados.corretor}`;
-      window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
-      form.classList.add('oculto'); cabecalho.classList.add('oculto'); sucesso.classList.remove('oculto');
+      botao.disabled = false; botao.textContent = rotuloBotao;
+      mostrarResultado(ok, email.value.trim());
     });
 
     document.getElementById('form-reset').addEventListener('click', () => {
       form.reset();
       form.querySelectorAll('.campo').forEach(c => c.classList.remove('invalido'));
+      pintarPais();
       sucesso.classList.add('oculto'); form.classList.remove('oculto'); cabecalho.classList.remove('oculto');
     });
   }
@@ -243,6 +354,62 @@ document.addEventListener('DOMContentLoaded', () => {
       history.replaceState(null, '', id);
     });
   });
+
+  /* ---------- faixa de fotos dos lofts ---------- */
+  document.querySelectorAll('.loft-fotos').forEach(caixa => {
+    const faixa = caixa.querySelector('.lf-strip');
+    const passo = () => {
+      const f = faixa.querySelector('.lf');
+      return f ? f.getBoundingClientRect().width + 2 : 240;
+    };
+    caixa.querySelector('.lf-seta.esq').addEventListener('click', () => faixa.scrollBy({ left: -passo(), behavior: 'smooth' }));
+    caixa.querySelector('.lf-seta.dir').addEventListener('click', () => faixa.scrollBy({ left: passo(), behavior: 'smooth' }));
+  });
+
+  /* ---------- lightbox das imagens (galeria e lofts) ---------- */
+  const zoom = document.getElementById('zoom');
+  if (zoom) {
+    const zImg = zoom.querySelector('.zoom-img');
+    const zLeg = zoom.querySelector('.zoom-leg');
+    const navs = [...zoom.querySelectorAll('.zoom-nav')];
+    let grupo = [], k = 0;
+    const pintar = () => {
+      const el = grupo[k];
+      if (!el) return;
+      zImg.src = el.currentSrc || el.src;
+      zImg.alt = el.alt || '';
+      zLeg.textContent = el.dataset.zoom || '';
+      navs.forEach(b => b.classList.toggle('oculto', grupo.length < 2));
+    };
+    const abrir = (lista, i) => {
+      grupo = lista; k = Math.max(0, i); pintar();
+      zoom.classList.add('ativo'); zoom.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('zoom-aberto');
+      zoom.querySelector('.zoom-fechar').focus();
+    };
+    const fechar = () => {
+      zoom.classList.remove('ativo'); zoom.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('zoom-aberto');
+    };
+    const andar = d => { if (grupo.length) { k = (k + d + grupo.length) % grupo.length; pintar(); } };
+    document.querySelectorAll('img[data-zoom]').forEach(img => {
+      img.addEventListener('click', () => {
+        const caixa = img.closest('.slides, .lf-strip');
+        const lista = caixa ? [...caixa.querySelectorAll('img[data-zoom]')] : [img];
+        abrir(lista, lista.indexOf(img));
+      });
+    });
+    zoom.querySelector('.zoom-fechar').addEventListener('click', fechar);
+    zoom.querySelector('.zoom-nav.esq').addEventListener('click', () => andar(-1));
+    zoom.querySelector('.zoom-nav.dir').addEventListener('click', () => andar(1));
+    zoom.addEventListener('click', e => { if (e.target === zoom || e.target === zImg) fechar(); });
+    document.addEventListener('keydown', e => {
+      if (!zoom.classList.contains('ativo')) return;
+      if (e.key === 'Escape') fechar();
+      if (e.key === 'ArrowRight') andar(1);
+      if (e.key === 'ArrowLeft') andar(-1);
+    });
+  }
 
   /* ---------- entrada suave das seções ---------- */
   const reveals = document.querySelectorAll('.reveal');

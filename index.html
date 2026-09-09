@@ -26,8 +26,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- impeccable-disable overused-font: Inter é a tipografia escolhida pelo cliente para todo o kit comercial (book, portfólio, rendimento); o site precisa casar com os PDFs -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200..700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300,0,0&icon_names=account_balance,architecture,beach_access,calendar_month,chat,check,chevron_left,chevron_right,construction,corporate_fare,description,directions_bike,engineering,fitness_center,home_work,key,location_on,luggage,north_east,payments,pool,restaurant,room_service,sauna,self_improvement,shield,spa,trending_up&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300,0,0&icon_names=account_balance,architecture,beach_access,calendar_month,chat,check,chevron_left,chevron_right,close,construction,corporate_fare,description,directions_bike,engineering,expand_more,fitness_center,home_work,key,location_on,luggage,mark_email_read,north_east,payments,pool,restaurant,room_service,sauna,self_improvement,shield,sms_failed,spa,trending_up&display=block" rel="stylesheet">
   <link rel="preload" as="image" href="assets/piscina-noite.webp">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
@@ -83,7 +83,7 @@
   <div class="hero-bg"><img src="assets/piscina-noite.webp" alt="AURA Corais: piscina e lofts ao entardecer em Arraial d'Ajuda – BA (imagem ilustrativa)" fetchpriority="high"><div class="hero-overlay"></div></div>
   <div class="container hero-grid">
     <div>
-      <span class="badge h-anim">Breve lançamento · Arraial d'Ajuda – BA</span>
+      <span class="badge h-anim"><span class="ponto" aria-hidden="true"></span>Breve lançamento · Arraial d'Ajuda – BA</span>
       <h1 class="h-anim">Lofts contemporâneos em <strong>Arraial d'Ajuda</strong>.</h1>
       <p class="sub h-anim">Um lugar para viver. Um patrimônio para valorizar. Lofts com piscina, jardins e circuito wellness, entre o centro histórico e as praias de Arraial d'Ajuda.</p>
       <div class="hero-acoes h-anim">
@@ -110,8 +110,14 @@
         </div>
         <div class="campo">
           <label for="f-tel">WhatsApp</label>
-          <div class="tel"><span class="ddi">+55</span><input type="tel" id="f-tel" name="telefone" autocomplete="tel" placeholder="(DD) 99999-9999" required></div>
-          <span class="erro">Formato: (DD) 99999-9999.</span>
+          <div class="tel">
+            <div class="ddi">
+              <select id="f-ddi" name="pais" aria-label="Código do país"></select>
+              <span class="ddi-vitrine" aria-hidden="true"><span class="bandeira">&#127463;&#127479;</span><span class="cod">+55</span><span class="ms">expand_more</span></span>
+            </div>
+            <input type="tel" id="f-tel" name="telefone" autocomplete="tel" inputmode="tel" placeholder="(DD) 99999-9999" required>
+          </div>
+          <span class="erro">Informe um número de telefone válido.</span>
         </div>
         <div class="campo">
           <fieldset>
@@ -131,10 +137,14 @@
         <p class="privacidade">Seus dados não são compartilhados com terceiros.</p>
       </form>
       <div id="form-sucesso" class="sucesso oculto" role="status" aria-live="polite">
-        <div class="icone"><span class="ms" aria-hidden="true">check</span></div>
-        <h3>Obrigado pelo contato!</h3>
-        <p>Abrimos o WhatsApp com os seus dados. A equipe do AURA Corais responde em instantes com a apresentação completa.</p>
-        <button type="button" id="form-reset" class="btn btn-sm btn-escuro">Enviar outro contato</button>
+        <div class="icone"><span class="ms" aria-hidden="true">mark_email_read</span></div>
+        <h3 class="suc-titulo">Cadastro enviado!</h3>
+        <p class="suc-texto">Seus dados foram enviados por e-mail para a equipe do AURA Corais. Em breve você recebe a apresentação completa e as novidades do lançamento.</p>
+        <p class="suc-eco"><span class="ms" aria-hidden="true">check</span><span class="suc-email"></span></p>
+        <div class="sucesso-acoes">
+          <a class="btn btn-primario btn-sm" href="https://wa.me/5573999999999?text=Ol%C3%A1%21%20Vi%20o%20site%20do%20AURA%20Corais%20e%20quero%20receber%20a%20apresenta%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer" data-whats="Olá! Vi o site do AURA Corais e quero receber a apresentação."><span class="ms" aria-hidden="true">chat</span>Falar agora</a>
+          <button type="button" id="form-reset" class="btn btn-sm btn-linha">Enviar outro contato</button>
+        </div>
       </div>
     </div>
   </div>
@@ -152,7 +162,7 @@
       <p>Para quem compra para investir, duas teses caminham separadas: o <b>potencial de geração de receita</b> por locação por temporada e o <b>potencial de valorização</b> de um imóvel novo, em região em consolidação. Renda e valorização têm naturezas distintas e não se somam. Estimativas, não garantias.</p>
       
       <div class="numeros">
-        <div class="numero"><b>30</b><span>lofts em 2 pavimentos</span></div><div class="numero"><b>2</b><span>tipologias · térreo e superior</span></div><div class="numero"><b>32,42 m²</b><span>loft superior · área privativa</span></div><div class="numero"><b>~40,58 m²</b><span>loft térreo · área privativa aproximada</span></div>
+        <div class="numero"><b>30</b><span>lofts em 2 pavimentos</span></div><div class="numero"><b>2</b><span>tipologias · térreo e superior</span></div><div class="numero"><b>32,42 m²</b><span>loft superior · área privativa</span></div><div class="numero"><b>40,58 m²</b><span>loft térreo · área privativa aproximada</span></div>
       </div>
       
     </div>
@@ -183,12 +193,12 @@
   <div class="container centro max-3 mb-lg reveal">
     <span class="tag">Ambientes</span>
     <h2 class="titulo">Conheça o <strong>AURA</strong>.</h2>
-    <p class="subtitulo">Recepção, piscina, restaurante e área gourmet, academia e jardins com camas balinesas, integrados ao clima de Arraial.</p>
+    <p class="subtitulo">Fachadas, piscina, pátios e jardins, recepção, restaurante e área gourmet, cozinha, academia e o circuito de bem-estar do AURA, em imagens do projeto.</p>
   </div>
   <div class="container reveal">
     <div class="carrossel" aria-roledescription="carrossel" aria-label="Imagens do AURA Corais" tabindex="0">
       <div class="slides">
-        <figure class="slide"><img src="assets/fachada-dia-3.webp" alt="Fachada diurna do AURA Corais com ripados de madeira e pedra" loading="lazy" width="1600" height="900"><figcaption>Fachada · dia</figcaption></figure><figure class="slide"><img src="assets/fachada-dia-4.webp" alt="Acesso principal do AURA Corais em Arraial d'Ajuda" loading="lazy" width="1600" height="900"><figcaption>Acesso principal</figcaption></figure><figure class="slide"><img src="assets/fachada-noite-1.webp" alt="Fachada noturna iluminada do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Fachada · noite</figcaption></figure><figure class="slide"><img src="assets/fachada-noite-2.webp" alt="Letreiro iluminado na fachada do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Letreiro iluminado</figcaption></figure><figure class="slide"><img src="assets/piscina-dia-1.webp" alt="Piscina do AURA Corais cercada por jardins" loading="lazy" width="1600" height="900"><figcaption>Piscina</figcaption></figure><figure class="slide"><img src="assets/fachada-pedra-piscina.webp" alt="Muro de pedra e deck junto à piscina do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Muro de pedra e deck</figcaption></figure><figure class="slide"><img src="assets/patio-escada.webp" alt="Pátio interno do AURA Corais com escada e paisagismo" loading="lazy" width="1600" height="900"><figcaption>Pátio interno</figcaption></figure><figure class="slide"><img src="assets/patio-noite-piscina.webp" alt="Pátio e piscina do AURA Corais iluminados à noite" loading="lazy" width="1600" height="900"><figcaption>Pátio e piscina · noite</figcaption></figure><figure class="slide"><img src="assets/jardim-camas.webp" alt="Jardim com camas balinesas do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Camas balinesas</figcaption></figure><figure class="slide"><img src="assets/recepcao-2.webp" alt="Recepção do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Recepção</figcaption></figure><figure class="slide"><img src="assets/restaurante-1.webp" alt="Área de café da manhã do restaurante do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Café da manhã</figcaption></figure><figure class="slide"><img src="assets/restaurante-3.webp" alt="Restaurante e área gourmet do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Restaurante</figcaption></figure><figure class="slide"><img src="assets/cozinha.webp" alt="Cozinha gourmet do AURA Corais" loading="lazy" width="1600" height="900"><figcaption>Cozinha gourmet</figcaption></figure><figure class="slide"><img src="assets/academia-1.webp" alt="Academia envidraçada do AURA Corais com vista para o jardim" loading="lazy" width="1600" height="900"><figcaption>Academia</figcaption></figure>
+        <figure class="slide"><img src="assets/fachada-dia-1.webp" alt="Fachada diurna do AURA Corais com letreiro e calçada" loading="lazy" width="1600" height="900" data-zoom="Fachada e acesso"><figcaption>Fachada e acesso</figcaption></figure><figure class="slide"><img src="assets/fachada-dia-2.webp" alt="Volumetria dos lofts do AURA Corais com paisagismo" loading="lazy" width="1600" height="900" data-zoom="Volumetria e paisagismo"><figcaption>Volumetria e paisagismo</figcaption></figure><figure class="slide"><img src="assets/fachada-dia-3.webp" alt="Fachada diurna do AURA Corais com ripados de madeira e pedra" loading="lazy" width="1600" height="900" data-zoom="Fachada · dia"><figcaption>Fachada · dia</figcaption></figure><figure class="slide"><img src="assets/fachada-dia-4.webp" alt="Esquina do AURA Corais com letreiro e revestimento em pedra" loading="lazy" width="1600" height="900" data-zoom="Esquina e letreiro"><figcaption>Esquina e letreiro</figcaption></figure><figure class="slide"><img src="assets/fachada-noite-1.webp" alt="Fachada noturna iluminada do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Fachada · noite"><figcaption>Fachada · noite</figcaption></figure><figure class="slide"><img src="assets/fachada-noite-2.webp" alt="Letreiro iluminado na esquina do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Letreiro iluminado"><figcaption>Letreiro iluminado</figcaption></figure><figure class="slide"><img src="assets/piscina-dia-1.webp" alt="Piscina do AURA Corais cercada por jardins" loading="lazy" width="1600" height="900" data-zoom="Piscina"><figcaption>Piscina</figcaption></figure><figure class="slide"><img src="assets/piscina-dia-2.webp" alt="Lofts do AURA Corais voltados para a piscina" loading="lazy" width="1600" height="900" data-zoom="Lofts e piscina"><figcaption>Lofts e piscina</figcaption></figure><figure class="slide"><img src="assets/fachada-pedra-piscina.webp" alt="Muro de pedra e deck junto à piscina do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Muro de pedra e deck"><figcaption>Muro de pedra e deck</figcaption></figure><figure class="slide"><img src="assets/piscina-noite.webp" alt="Piscina do AURA Corais iluminada ao entardecer" loading="lazy" width="1600" height="900" data-zoom="Piscina · noite"><figcaption>Piscina · noite</figcaption></figure><figure class="slide"><img src="assets/patio-piscina.webp" alt="Pátio, piscina e jardins do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Pátio e jardins"><figcaption>Pátio e jardins</figcaption></figure><figure class="slide"><img src="assets/patio-escada.webp" alt="Circulação externa e jardins do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Circulação e jardins"><figcaption>Circulação e jardins</figcaption></figure><figure class="slide"><img src="assets/patio-noite-piscina.webp" alt="Pátio e piscina do AURA Corais iluminados à noite" loading="lazy" width="1600" height="900" data-zoom="Pátio e piscina · noite"><figcaption>Pátio e piscina · noite</figcaption></figure><figure class="slide"><img src="assets/jardim-camas.webp" alt="Jardim com camas balinesas do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Camas balinesas"><figcaption>Camas balinesas</figcaption></figure><figure class="slide"><img src="assets/escada-externa.webp" alt="Escada externa e academia do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Escada e academia"><figcaption>Escada e academia</figcaption></figure><figure class="slide"><img src="assets/academia-1.webp" alt="Academia envidraçada do AURA Corais com vista para o jardim" loading="lazy" width="1600" height="900" data-zoom="Academia"><figcaption>Academia</figcaption></figure><figure class="slide"><img src="assets/academia-2.webp" alt="Interior da academia do AURA Corais com equipamentos" loading="lazy" width="1600" height="900" data-zoom="Musculação e cardio"><figcaption>Musculação e cardio</figcaption></figure><figure class="slide"><img src="assets/recepcao-1.webp" alt="Recepção do AURA Corais com lounge de espera" loading="lazy" width="1600" height="900" data-zoom="Recepção"><figcaption>Recepção</figcaption></figure><figure class="slide"><img src="assets/recepcao-2.webp" alt="Balcão de atendimento da recepção do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Balcão de atendimento"><figcaption>Balcão de atendimento</figcaption></figure><figure class="slide"><img src="assets/restaurante-1.webp" alt="Área de café da manhã do restaurante do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Café da manhã"><figcaption>Café da manhã</figcaption></figure><figure class="slide"><img src="assets/restaurante-3.webp" alt="Restaurante do AURA Corais com parede de pedra e letreiro" loading="lazy" width="1600" height="900" data-zoom="Restaurante"><figcaption>Restaurante</figcaption></figure><figure class="slide"><img src="assets/restaurante-2.webp" alt="Área gourmet e convivência do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Área gourmet"><figcaption>Área gourmet</figcaption></figure><figure class="slide"><img src="assets/cozinha.webp" alt="Cozinha gourmet do AURA Corais" loading="lazy" width="1600" height="900" data-zoom="Cozinha gourmet"><figcaption>Cozinha gourmet</figcaption></figure>
       </div>
       <button type="button" class="seta seta-esq" aria-label="Imagem anterior"><span class="ms" aria-hidden="true">chevron_left</span></button>
       <button type="button" class="seta seta-dir" aria-label="Próxima imagem"><span class="ms" aria-hidden="true">chevron_right</span></button>
@@ -246,20 +256,32 @@
           <li><span class="ms" aria-hidden="true">check</span>Living e dormitório integrados com cama de casal e sofá-cama</li><li><span class="ms" aria-hidden="true">check</span>Cozinha compacta com pia, cooktop e frigobar</li><li><span class="ms" aria-hidden="true">check</span>Banheiro privativo com box</li><li><span class="ms" aria-hidden="true">check</span>Bancada de trabalho e armários</li><li><span class="ms" aria-hidden="true">check</span>Varanda com guarda-corpo de vidro, voltada para os jardins e a piscina</li>
         </ul>
       </div>
-      <div class="fotos"><img src="assets/ape-superior-1.webp" alt="Loft Superior do AURA Corais: interior (imagem ilustrativa)" loading="lazy" width="800" height="600"><img src="assets/ape-superior-3.webp" alt="Loft Superior do AURA Corais: interior (imagem ilustrativa)" loading="lazy" width="800" height="600"></div>
+      <div class="loft-fotos">
+        <div class="lf-strip">
+          <figure class="lf"><img src="assets/ape-superior-2.webp" alt="Loft Superior do AURA Corais: Living e cozinha (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Superior · Living e cozinha"><figcaption>Living e cozinha</figcaption></figure><figure class="lf"><img src="assets/ape-superior-1.webp" alt="Loft Superior do AURA Corais: Bancada de trabalho (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Superior · Bancada de trabalho"><figcaption>Bancada de trabalho</figcaption></figure><figure class="lf"><img src="assets/ape-superior-3.webp" alt="Loft Superior do AURA Corais: Dormitório integrado (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Superior · Dormitório integrado"><figcaption>Dormitório integrado</figcaption></figure><figure class="lf"><img src="assets/ape-superior-4.webp" alt="Loft Superior do AURA Corais: Detalhes do loft (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Superior · Detalhes do loft"><figcaption>Detalhes do loft</figcaption></figure>
+        </div>
+        <button type="button" class="lf-seta esq" aria-label="Fotos anteriores"><span class="ms" aria-hidden="true">chevron_left</span></button>
+        <button type="button" class="lf-seta dir" aria-label="Próximas fotos"><span class="ms" aria-hidden="true">chevron_right</span></button>
+      </div>
     </article>
     
     <article class="loft-card">
       <div class="planta"><img src="assets/planta-terreo-cotas.webp" alt="Planta humanizada do Loft Térreo do AURA Corais (imagem ilustrativa)" loading="lazy" width="1400" height="604"></div>
       <div class="corpo">
-        <div class="topo"><h3>Loft Térreo</h3><div class="area">~40,58 m²<small>área privativa</small></div></div>
+        <div class="topo"><h3>Loft Térreo</h3><div class="area">40,58 m²<small>área privativa</small></div></div>
         <p class="area-nota">28,71 m² internos + área externa privativa · 39,84 a 72,21 m² totais conforme a unidade (áreas aproximadas)</p>
         <p class="desc">Mais área privativa, com deck exclusivo e acesso direto ao pátio e aos jardins. Mais espaço para viver o AURA.</p>
         <ul class="itens">
           <li><span class="ms" aria-hidden="true">check</span>Living e dormitório integrados com cama de casal e sofá-cama</li><li><span class="ms" aria-hidden="true">check</span>Cozinha compacta com pia, cooktop e frigobar</li><li><span class="ms" aria-hidden="true">check</span>Banheiro privativo com box</li><li><span class="ms" aria-hidden="true">check</span>Bancada de trabalho e armários</li><li><span class="ms" aria-hidden="true">check</span>Área externa privativa com deck em madeira, espreguiçadeiras, mesa de apoio e ofurô (deck e ofurô contratados à parte)</li><li><span class="ms" aria-hidden="true">check</span>Acesso direto ao pátio e aos jardins</li>
         </ul>
       </div>
-      <div class="fotos"><img src="assets/ape-terreo-2.webp" alt="Loft Térreo do AURA Corais: interior (imagem ilustrativa)" loading="lazy" width="800" height="600"><img src="assets/area-privativa-terreo.webp" alt="Loft Térreo do AURA Corais: interior (imagem ilustrativa)" loading="lazy" width="800" height="600"></div>
+      <div class="loft-fotos">
+        <div class="lf-strip">
+          <figure class="lf"><img src="assets/ape-terreo-1.webp" alt="Loft Térreo do AURA Corais: Living e dormitório (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Térreo · Living e dormitório"><figcaption>Living e dormitório</figcaption></figure><figure class="lf"><img src="assets/ape-terreo-5.webp" alt="Loft Térreo do AURA Corais: Ambiente integrado (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Térreo · Ambiente integrado"><figcaption>Ambiente integrado</figcaption></figure><figure class="lf"><img src="assets/ape-terreo-2.webp" alt="Loft Térreo do AURA Corais: Cozinha compacta (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Térreo · Cozinha compacta"><figcaption>Cozinha compacta</figcaption></figure><figure class="lf"><img src="assets/ape-terreo-4.webp" alt="Loft Térreo do AURA Corais: Dormitório e cozinha (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Térreo · Dormitório e cozinha"><figcaption>Dormitório e cozinha</figcaption></figure><figure class="lf"><img src="assets/terreo-noite.webp" alt="Loft Térreo do AURA Corais: O loft à noite (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Térreo · O loft à noite"><figcaption>O loft à noite</figcaption></figure><figure class="lf"><img src="assets/ape-terreo-3.webp" alt="Loft Térreo do AURA Corais: Detalhe da bancada (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Térreo · Detalhe da bancada"><figcaption>Detalhe da bancada</figcaption></figure><figure class="lf"><img src="assets/area-privativa-terreo.webp" alt="Loft Térreo do AURA Corais: Área externa privativa (imagem ilustrativa)" loading="lazy" width="900" height="675" data-zoom="Loft Térreo · Área externa privativa"><figcaption>Área externa privativa</figcaption></figure>
+        </div>
+        <button type="button" class="lf-seta esq" aria-label="Fotos anteriores"><span class="ms" aria-hidden="true">chevron_left</span></button>
+        <button type="button" class="lf-seta dir" aria-label="Próximas fotos"><span class="ms" aria-hidden="true">chevron_right</span></button>
+      </div>
     </article>
     
   </div>
@@ -278,7 +300,7 @@
         <span class="tag">Pontos de referência</span>
         <p class="endereco"><span class="ms" aria-hidden="true">location_on</span><span>Loteamento Corais do Arraial · Arraial d'Ajuda · Porto Seguro – BA</span></p>
         <ul>
-          <li><span>Praia de Pitinga</span><span class="dist">~1,7 km</span></li><li><span>Praia do Parracho</span><span class="dist">~1,8 km</span></li><li><span>Centro histórico · Rua do Mucugê</span><span class="dist">~3,1 km</span></li><li><span>Praia do Mucugê</span><span class="dist">~4,0 km</span></li><li><span>Aeroporto de Porto Seguro</span><span class="dist">~10,5 km · via balsa</span></li>
+          <li><span>Praia de Pitinga</span><span class="dist">1,7 km</span></li><li><span>Praia do Parracho</span><span class="dist">1,8 km</span></li><li><span>Centro histórico · Rua do Mucugê</span><span class="dist">3,1 km</span></li><li><span>Praia do Mucugê</span><span class="dist">4,0 km</span></li><li><span>Aeroporto de Porto Seguro</span><span class="dist">10,5 km · via balsa</span></li>
         </ul>
         <p class="small nota">Distâncias aproximadas, em linha reta ou por via, a partir do loteamento; posição exata do terreno conforme projeto aprovado.</p>
       </div>
@@ -311,7 +333,7 @@
       </div>
       
       <div class="renda-card">
-        <div class="topo"><h3>Loft Térreo</h3><span class="area">~40,58 m²</span></div>
+        <div class="topo"><h3>Loft Térreo</h3><span class="area">40,58 m²</span></div>
         <div class="anos">
           <div class="ano"><div class="v">R$ 58.965</div><div class="l">Ano 1</div></div>
           <div class="ano"><div class="v">R$ 72.323</div><div class="l">Ano 2</div></div>
@@ -330,10 +352,30 @@
         <h2 class="titulo" style="font-size:clamp(26px,3vw,36px);">Além da renda, existe o <strong>patrimônio</strong>.</h2>
         <p>Três cenários de valorização nominal do imóvel, apresentados em faixas para leitura prudente. Renda e valorização têm naturezas distintas e são apresentadas separadamente; os indicadores não se somam. Estimativas, não garantias.</p>
       </div>
-      <table class="t">
-        <tr><th>Cenário de valorização</th><th class="n">ao ano</th><th class="n">acumulado em 3 anos</th></tr>
-        <tr><td>Prudencial</td><td class="n">3% a.a.</td><td class="n">≈ 9,3% acumulados em 3 anos</td></tr><tr><td>Base</td><td class="n">6% a.a.</td><td class="n">≈ 19,1% acumulados em 3 anos</td></tr><tr><td>Potencial</td><td class="n">9% a.a.</td><td class="n">≈ 29,5% acumulados em 3 anos</td></tr>
-      </table>
+      <div class="valor-cards">
+        
+        <div class="valor-card">
+          <span class="vc-cenario">Cenário prudencial</span>
+          <div class="vc-num">3%<small>ao ano</small></div>
+          <div class="vc-barra"><span style="width:32%"></span></div>
+          <div class="vc-acum"><b>9,3%</b> acumulados em 3 anos</div>
+        </div>
+        
+        <div class="valor-card">
+          <span class="vc-cenario">Cenário base</span>
+          <div class="vc-num">6%<small>ao ano</small></div>
+          <div class="vc-barra"><span style="width:65%"></span></div>
+          <div class="vc-acum"><b>19,1%</b> acumulados em 3 anos</div>
+        </div>
+        
+        <div class="valor-card">
+          <span class="vc-cenario">Cenário potencial</span>
+          <div class="vc-num">9%<small>ao ano</small></div>
+          <div class="vc-barra"><span style="width:100%"></span></div>
+          <div class="vc-acum"><b>29,5%</b> acumulados em 3 anos</div>
+        </div>
+        
+      </div>
     </div>
     <p class="ressalva">Faturamento bruto de hospedagem, antes de qualquer dedução, projetado por ano de operação. Projeção conservadora, estimada a partir de referências de mercado; não constitui promessa ou garantia de resultado. A valorização é estimativa, não garantia, e depende do mercado ao longo do tempo. Renda e valorização não se somam.</p>
   </div>
@@ -392,7 +434,7 @@
     <h2 class="titulo">Perguntas e <strong>respostas</strong></h2>
   </div>
   <div class="container max-3 faq reveal">
-    <details><summary>O que é o AURA Corais?</summary><p>Lofts contemporâneos no Loteamento Corais do Arraial, em Arraial d'Ajuda, Porto Seguro – BA, entre o centro histórico e as praias do Parracho e de Pitinga: 30 lofts em duas tipologias, organizados ao redor de piscina, jardins e circuito wellness. Realização VRV Incorporadora.</p></details><details><summary>Quais são as tipologias e as áreas?</summary><p>Loft superior com 32,42 m² de área privativa (28,71 m² internos + varanda de 3,71 m²) e loft térreo com 28,71 m² internos + área externa privativa (~40,58 m² na unidade típica; 39,84 a 72,21 m² conforme a unidade). Áreas aproximadas; metragem final conforme projeto aprovado.</p></details><details><summary>O que compõe cada loft?</summary><p>Living e dormitório integrados com cama de casal e sofá-cama, cozinha compacta com pia, cooktop e frigobar, banheiro privativo com box, bancada de trabalho e armários. Térreo com área externa privativa (deck e ofurô contratados à parte); superior com varanda. Parte da decoração é contratada à parte.</p></details><details><summary>Quais áreas comuns estão previstas?</summary><p>Recepção, piscina, restaurante e área gourmet, academia integrada ao verde, circuito wellness com espaço de meditação e sauna molhada, jardins com camas balinesas, bicicletário e lavanderia. Áreas comuns previstas conforme projeto e memorial descritivo.</p></details><details><summary>Quando será o lançamento?</summary><p>Em breve. O Registro de Incorporação e as demais etapas seguem o cronograma previsto, e as datas de cada etapa serão divulgadas após as respectivas aprovações. Cadastre-se para receber a apresentação em primeira mão.</p></details><details><summary>O faturamento apresentado é garantido?</summary><p>Não. Os valores são projeções de faturamento bruto, antes de qualquer dedução, estimadas a partir de referências de mercado. Projeção conservadora, não constitui promessa ou garantia de resultado; depende do mercado, da forma de administração escolhida pelo proprietário e das condições futuras.</p></details><details><summary>Renda e valorização se somam?</summary><p>Não. Renda e valorização têm naturezas distintas e são apresentadas separadamente; os indicadores não se somam. A valorização aparece apenas em cenários percentuais e é estimativa, não garantia; depende do mercado ao longo do tempo.</p></details><details><summary>Posso usar o loft e também alugar?</summary><p>Sim. Seu imóvel, suas escolhas: use nas suas temporadas, coloque a unidade na locação por temporada ou combine as duas formas. A forma de administrar é decisão do proprietário.</p></details>
+    <details><summary>O que é o AURA Corais?</summary><p>Lofts contemporâneos no Loteamento Corais do Arraial, em Arraial d'Ajuda, Porto Seguro – BA, entre o centro histórico e as praias do Parracho e de Pitinga: 30 lofts em duas tipologias, organizados ao redor de piscina, jardins e circuito wellness. Realização VRV Incorporadora.</p></details><details><summary>Quais são as tipologias e as áreas?</summary><p>Loft superior com 32,42 m² de área privativa (28,71 m² internos + varanda de 3,71 m²) e loft térreo com 28,71 m² internos + área externa privativa (40,58 m² na unidade típica; 39,84 a 72,21 m² conforme a unidade). Áreas aproximadas; metragem final conforme projeto aprovado.</p></details><details><summary>O que compõe cada loft?</summary><p>Living e dormitório integrados com cama de casal e sofá-cama, cozinha compacta com pia, cooktop e frigobar, banheiro privativo com box, bancada de trabalho e armários. Térreo com área externa privativa (deck e ofurô contratados à parte); superior com varanda. Parte da decoração é contratada à parte.</p></details><details><summary>Quais áreas comuns estão previstas?</summary><p>Recepção, piscina, restaurante e área gourmet, academia integrada ao verde, circuito wellness com espaço de meditação e sauna molhada, jardins com camas balinesas, bicicletário e lavanderia. Áreas comuns previstas conforme projeto e memorial descritivo.</p></details><details><summary>Quando será o lançamento?</summary><p>Em breve. O Registro de Incorporação e as demais etapas seguem o cronograma previsto, e as datas de cada etapa serão divulgadas após as respectivas aprovações. Cadastre-se para receber a apresentação em primeira mão.</p></details><details><summary>O faturamento apresentado é garantido?</summary><p>Não. Os valores são projeções de faturamento bruto, antes de qualquer dedução, estimadas a partir de referências de mercado. Projeção conservadora, não constitui promessa ou garantia de resultado; depende do mercado, da forma de administração escolhida pelo proprietário e das condições futuras.</p></details><details><summary>Renda e valorização se somam?</summary><p>Não. Renda e valorização têm naturezas distintas e são apresentadas separadamente; os indicadores não se somam. A valorização aparece apenas em cenários percentuais e é estimativa, não garantia; depende do mercado ao longo do tempo.</p></details><details><summary>Posso usar o loft e também alugar?</summary><p>Sim. Seu imóvel, suas escolhas: use nas suas temporadas, coloque a unidade na locação por temporada ou combine as duas formas. A forma de administrar é decisão do proprietário.</p></details>
   </div>
 </section>
 
@@ -429,6 +471,14 @@
 <a class="whats" href="https://wa.me/5573999999999?text=Ol%C3%A1%21%20Vi%20o%20site%20do%20AURA%20Corais%20e%20quero%20receber%20a%20apresenta%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer" data-whats="Olá! Vi o site do AURA Corais e quero receber a apresentação." aria-label="Falar pelo WhatsApp">
   <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.3 8.7 3.3 15.7c0 2.5.7 4.9 2 7L3 29l6.5-2.2c2 1.1 4.2 1.6 6.5 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-2 0-4-.5-5.7-1.6l-.4-.2-3.9 1.3 1.3-3.8-.3-.4a10.4 10.4 0 0 1-1.6-5.6C5.4 9.9 10.2 5.2 16 5.2s10.6 4.7 10.6 10.5S21.8 26.2 16 26.2zm5.8-7.8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.3 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg>
 </a>
+
+<div id="zoom" class="zoom" role="dialog" aria-modal="true" aria-label="Imagem ampliada" aria-hidden="true">
+  <button type="button" class="zoom-fechar" aria-label="Fechar"><span class="ms" aria-hidden="true">close</span></button>
+  <button type="button" class="zoom-nav esq" aria-label="Imagem anterior"><span class="ms" aria-hidden="true">chevron_left</span></button>
+  <img class="zoom-img" src="" alt="">
+  <button type="button" class="zoom-nav dir" aria-label="Próxima imagem"><span class="ms" aria-hidden="true">chevron_right</span></button>
+  <p class="zoom-leg"></p>
+</div>
 
 <script src="script.js"></script>
 </body>
