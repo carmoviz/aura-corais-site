@@ -2,27 +2,13 @@
    AURA Corais — site de apresentação · comportamento
    Preenchido por preencher-site.py a partir de site.json (bloco CONFIG).
    ========================================================================== */
-const CONFIG = {
-  whatsapp: '5573999999999',            // só dígitos, com DDI (placeholder até a confirmação do número comercial)
-  nome: 'AURA Corais',
-  msgWhats: 'Olá! Vi o site do AURA Corais e quero receber a apresentação.',
-  formEndpoint: 'https://formsubmit.co/ajax/contato@auracorais.com',   // URL que recebe o POST JSON do formulário (FormSubmit/Formspree). Vazio = só WhatsApp
-  autoplayMs: 6000,
-  lang: 'pt',                    // 'pt' ou 'en' — define os textos abaixo e o nome dos países
-  txt: {
-    enviando: 'Enviando…',
-    sucTitulo: 'Cadastro enviado!',
-    sucTexto: 'Seus dados foram enviados por e-mail para a equipe do AURA Corais. Em breve você recebe a apresentação completa e as novidades do lançamento.',
-    erroTitulo: 'Não conseguimos enviar agora',
-    erroTexto: 'O envio automático falhou. Fale com a equipe do AURA Corais pelo WhatsApp — respondemos em instantes.',
-    telBR: '(DD) 99999-9999',
-    telIntl: 'Número com DDD',
-    semPais: 'Nenhum país encontrado',
-    newsInvalido: 'Informe um e-mail válido.',
-    newsOk: 'Pronto! Você está na lista de novidades.',
-    newsErro: 'Não conseguimos cadastrar agora. Tente novamente em instantes.'
-  }
-};
+let CONFIG = {};
+function lerDados() {
+  const bloco = document.getElementById('dados-site');
+  try { CONFIG = JSON.parse(bloco.textContent); } catch (_) { CONFIG = { lang: 'pt', txt: {}, autoplayMs: 6000 }; }
+  return CONFIG;
+}
+lerDados();
 
 /* Países do seletor de DDI do formulário (o primeiro é o padrão).
    icone-js:sms_failed — ícone usado só pelo JS; precisa entrar no subconjunto do Material Symbols. */
@@ -169,14 +155,28 @@ function iniciarAbertura() {
   window.addEventListener('resize', medir);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function iniciarPagina(animarSecoes = true) {
+  lerDados();
   iniciarAbertura();
 
   /* ---------- header ---------- */
   const header = document.querySelector('.header');
-  const onScroll = () => header.classList.toggle('rolado', window.scrollY > 40);
+  const onScroll = () => header && header.classList.toggle('rolado', window.scrollY > 40);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  /* ---------- troca de idioma sem recarregar a página ---------- */
+  const linkIdioma = document.querySelector('.idioma');
+  if (linkIdioma) {
+    const destino = linkIdioma.getAttribute('href');
+    if (destino) prepararTroca(destino);
+    linkIdioma.addEventListener('click', e => {
+      if (!destino || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      try { localStorage.setItem('aura-idioma', (document.documentElement.lang || 'pt').toLowerCase().indexOf('pt') === 0 ? 'en' : 'pt'); } catch (_) {}
+      trocarIdioma(destino);
+    });
+  }
 
   const burger = document.querySelector('.hamburguer');
   const menuMobile = document.querySelector('.menu-mobile');
@@ -189,8 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.toggle('travado', !aberto);
     if (!aberto) header.classList.add('rolado'); else onScroll();
   };
-  burger.addEventListener('click', toggleMenu);
-  menuMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { if (menuMobile.classList.contains('ativo')) toggleMenu(); }));
+  if (burger && menuMobile) {
+    burger.addEventListener('click', toggleMenu);
+    menuMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { if (menuMobile.classList.contains('ativo')) toggleMenu(); }));
+  }
 
   /* ---------- carrossel ---------- */
   const carrossel = document.querySelector('.carrossel');
@@ -476,7 +478,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!alvo) return;
       e.preventDefault();
       alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(null, '', id);
     });
   });
 
@@ -538,7 +539,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- entrada suave das seções ---------- */
   const reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && reveals.length) {
+  if (!animarSecoes) {
+    reveals.forEach(el => el.classList.add('in'));
+  } else if ('IntersectionObserver' in window && reveals.length) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
     }, { threshold: 0.06, rootMargin: '0px 0px -6% 0px' });
@@ -548,4 +551,63 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     reveals.forEach(el => el.classList.add('in'));
   }
+}
+
+/* ==========================================================================
+   Troca de idioma sem recarregar: busca a página do outro idioma, troca o
+   conteúdo do <body> e o endereço (pushState) e reinicializa tudo.
+   ========================================================================== */
+let htmlOutroIdioma = null, urlOutroIdioma = null;
+
+function prepararTroca(destino) {
+  if (urlOutroIdioma === destino && htmlOutroIdioma) return;
+  urlOutroIdioma = destino; htmlOutroIdioma = null;
+  const pegar = () => fetch(destino, { credentials: 'same-origin' })
+    .then(r => (r.ok ? r.text() : null))
+    .then(t => { if (urlOutroIdioma === destino) htmlOutroIdioma = t; })
+    .catch(() => {});
+  if ('requestIdleCallback' in window) requestIdleCallback(pegar, { timeout: 2500 }); else setTimeout(pegar, 1200);
+}
+
+async function trocarIdioma(destino, empurrar = true) {
+  let html = (urlOutroIdioma === destino && htmlOutroIdioma) ? htmlOutroIdioma : null;
+  if (!html) {
+    try {
+      const r = await fetch(destino, { credentials: 'same-origin' });
+      if (!r.ok) throw new Error('resposta ' + r.status);
+      html = await r.text();
+    } catch (_) { location.href = destino; return; }   // sem rede para o fetch: navega do jeito tradicional
+  }
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const intro = doc.getElementById('intro');
+  if (intro) intro.remove();                            // a abertura só roda na primeira visita
+  const y = window.scrollY;
+  const raiz = document.documentElement;
+  document.title = doc.title;
+  raiz.lang = doc.documentElement.lang;
+  raiz.setAttribute('data-idioma-alt', doc.documentElement.getAttribute('data-idioma-alt') || '');
+  const canon = document.querySelector('link[rel=canonical]'), canonNovo = doc.querySelector('link[rel=canonical]');
+  if (canon && canonNovo) canon.href = canonNovo.href;
+  document.body.className = doc.body.className;
+  document.body.innerHTML = doc.body.innerHTML;         // scripts inseridos por innerHTML não executam: reinicializamos na mão
+  document.body.classList.remove('intro-ativa');
+  document.body.classList.add('aberto');
+  if (empurrar) history.pushState({ idioma: true }, '', enderecoLimpo(destino));
+  iniciarPagina(false);
+  window.scrollTo(0, y);                                // continua na mesma altura da página
+}
+
+/* /en.html vira /en (o cleanUrls da Vercel serve os dois; local, só o arquivo existe) */
+function enderecoLimpo(arquivo) {
+  return arquivo === 'index.html' ? './' : arquivo.replace(/\.html$/, '');
+}
+window.addEventListener('popstate', () => {
+  const nome = location.pathname.split('/').pop();
+  const alvo = !nome ? 'index.html' : (nome.endsWith('.html') ? nome : nome + '.html');
+  trocarIdioma(alvo, false);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!location.hash) window.scrollTo(0, 0);            // recarregar a página começa do topo
+  iniciarPagina(true);
 });

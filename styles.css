@@ -307,8 +307,8 @@ table.t tr.hl td { background: var(--soft); font-weight: 500; }
 /* ---------- realização + segurança ---------- */
 .real-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 56px; }
 .real-marca { display: flex; align-items: center; gap: 22px; }
-.real-marca svg { height: 72px; width: auto; color: var(--creme); flex: none; }
-.real-marca .filete { width: 1px; height: 60px; background: var(--dark-line); }
+.real-marca svg { width: 74px; height: 64px; color: var(--creme); flex: none; }
+.real-marca .filete { width: 1px; height: 56px; background: var(--dark-line); flex: none; }
 .real-marca .lab { font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--dark-muted); font-weight: 600; }
 .real-marca .nome { font-size: 22px; font-weight: 600; color: #F7F1EA; letter-spacing: .02em; margin-top: 4px; }
 .real-topo p { color: var(--dark-texto); font-size: 16.5px; line-height: 1.7; }
@@ -355,8 +355,8 @@ table.t tr.hl td { background: var(--soft); font-weight: 500; }
 .rodape-site .topo { display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap; padding-bottom: 28px; border-bottom: 1px solid rgba(242, 236, 223, .1); margin-bottom: 28px; }
 .rodape-site .topo img { height: 34px; }
 .rodape-real { display: flex; align-items: center; gap: 14px; }
-.rodape-real svg { height: 40px; width: auto; color: var(--creme); }
-.rodape-real .filete { width: 1px; height: 34px; background: var(--dark-line); }
+.rodape-real svg { width: 46px; height: 40px; color: var(--creme); flex: none; }
+.rodape-real .filete { width: 1px; height: 34px; background: var(--dark-line); flex: none; }
 .rodape-real .lab { font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--dark-muted); font-weight: 500; }
 .rodape-real .nome { font-size: 14px; font-weight: 500; color: #F4EDE5; letter-spacing: .04em; margin-top: 2px; }
 .rodape-links { display: flex; gap: 22px; align-items: center; }
@@ -428,7 +428,7 @@ table.t tr.hl td { background: var(--soft); font-weight: 500; }
   .cta-final { padding: 72px 0; }
   .rodape-site .topo { flex-direction: column; align-items: flex-start; }
   .rodape-site .aviso { text-align: left; }
-  .real-marca svg { height: 56px; }
+  .real-marca svg { width: 62px; height: 54px; }
 }
 
 /* ---------- abertura: partículas formam a logo → "Mova para abrir" ---------- */
@@ -500,13 +500,13 @@ body.zoom-aberto { overflow: hidden; }
 }
 
 /* ---------- crédito do projeto (CarmoViz Studio) ao lado da realização ---------- */
-.real-marcas { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 44px; }
-.real-marca.projeto svg { height: 46px; }
+.real-marcas { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+
 .real-marca.projeto { transition: var(--t); }
 .real-marca.projeto:hover { color: var(--mel); }
 .real-marca.projeto:hover .nome { color: var(--mel); }
 .rodape-marcas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 30px; }
-.rodape-real.projeto svg { height: 26px; }
+
 .rodape-real.projeto { transition: var(--t); }
 .rodape-real.projeto:hover .nome { color: var(--mel); }
 
